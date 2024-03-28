@@ -2,7 +2,6 @@
 
 class Service extends Model
 {
-
     public string $table_name = 'services';
 
     public function update(array $data)
