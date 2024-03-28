@@ -8,8 +8,8 @@
 </head>
 <body>
 <header id="header" class="">
-    <img src="./../../public/assets/images/web.png" width="50px" alt="Logo">
-    <img src="./../../public/assets/images/button.png" width="40px" alt="Meniu buton">
+    <img src="<?php echo url('images/web.png');?>" width="50px" alt="Logo">
+    <img src="<?php echo url('images/button.png');?>" width="40px" alt="Meniu buton">
 </header>
 
 <section id="hero">
