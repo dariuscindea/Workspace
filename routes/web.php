@@ -11,7 +11,7 @@ return [
     // Admin Area.
     ['url' => '/mysite/admin', 'name' => 'admin.index', 'controller' => AdminController::class, 'action' => 'index', 'method' => 'get'],
     ['url' => '/mysite/admin/project/store', 'name' => 'admin.store', 'controller' => AdminController::class, 'action' => 'store', 'method' => 'post'],
-    ['url' => '/mysite/admin/project/edit', 'name' => 'admin.index', 'controller' => AdminController::class, 'action' => 'edit', 'method' => 'get'],
-    ['url' => '/mysite/admin/project/update', 'name' => 'admin.index', 'controller' => AdminController::class, 'action' => 'update', 'method' => 'post'],
-    ['url' => '/mysite/admin/project/delete', 'name' => 'admin.index', 'controller' => AdminController::class, 'action' => 'destroy', 'method' => 'delete'],
+    ['url' => '/mysite/admin/project/edit', 'name' => 'admin.edit', 'controller' => AdminController::class, 'action' => 'edit', 'method' => 'get'],
+    ['url' => '/mysite/admin/project/update', 'name' => 'admin.update', 'controller' => AdminController::class, 'action' => 'update', 'method' => 'post'],
+    ['url' => '/mysite/admin/project/delete', 'name' => 'admin.delete', 'controller' => AdminController::class, 'action' => 'destroy', 'method' => 'get'],
 ];

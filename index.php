@@ -5,7 +5,7 @@ $routes = include_once __DIR__ . '/routes/web.php';
 foreach ($routes as $route) {
     if (
         preg_replace('/\//', '', $route['url'], 1) ===
-        preg_replace('/\//', '', $_SERVER['REQUEST_URI'], 1)
+        preg_replace('/\//', '', parse_url($_SERVER['REQUEST_URI'])['path'], 1)
     ) {
 
         if (strtolower($_SERVER['REQUEST_METHOD']) === strtolower($route['method'])) {

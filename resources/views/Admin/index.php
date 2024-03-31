@@ -101,7 +101,7 @@
         </thead>
         <tbody>
         <?php
-            foreach ($projects as $key => $project) {
+            foreach ($projects ?? [] as $key => $project) {
                 echo "<tr>
                     <td>$key</td>
                     <td>$project[0]</td>
@@ -111,7 +111,8 @@
                     <td><img src='".assets($project[2])."' alt='.$project[1]' style='width: 30px; height: 30px'> </td>
                     <td>$project[6]</td>
                     <td>
-                    <button style='background: cornflowerblue; color: white; border-radius: 4px'>Edit</button> <button style='background: red; color: white; border-radius: 4px'>Delete</button>
+                    <button style='background: cornflowerblue; color: white; border-radius: 4px'>Edit</button> 
+                    <a href='". route("admin.delete") ."?id=$project[0]' style='background: red; color: white; border-radius: 4px'>Delete</a>
                     </td>
                     "
                     .'</tr>';

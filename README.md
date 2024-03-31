@@ -1,0 +1,1 @@
+## First time you have to migrate the database, Then you can seed the data via factories

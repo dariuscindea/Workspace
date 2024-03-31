@@ -76,9 +76,18 @@ abstract class Model extends Connection
 
         return $this;
     }
-    public function delete(array $data)
-    {
+        public function delete(): mysqli_result|bool
+        {
+        $query = "DELETE FROM $this->table_name";
 
+        if ($this->where) {
+            $key = array_keys($this->where)[0] ?? '';
+            $value = array_values($this->where)[0] ?? '';
+
+            $query .= " WHERE $key = '$value'";
+        }
+
+        return mysqli_query($this->init(), $query);
     }
 
     public function latest(string $column = 'id'): static
