@@ -5,16 +5,14 @@ class Connection
     public function init()
     {
         try {
-            $host = '127.0.0.1';
-            $database = 'workspace';
-            $username = 'root';
-            $port = 3306;
-            $password = 'root';
+            $databaseConfig = include __DIR__ . '/../../../config/database.php';
 
-            return mysqli_connect($host, $username, $password, $database, $port);
+            $config = $databaseConfig['connections']['mysql'];
+
+            return mysqli_connect($config['host'], $config['username'], $config['password'], $config['database'], $config['port']);
 
         } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
+            die('Something went wrong! : ' . $e->getMessage());
         }
     }
 }

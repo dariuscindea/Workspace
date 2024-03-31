@@ -1,8 +1,20 @@
 <?php
 
+include_once __DIR__ . '/../../system/Core/Database/Connection.php';
+
 abstract class Model extends Connection
 {
     public string $table_name;
+
+    protected string $order = 'ASC';
+
+    protected ?array $with;
+
+    protected ?array $where;
+
+    protected ?int $limit = null;
+
+    private ?string $query = null;
 
     public static function query(): static
     {
@@ -26,39 +38,86 @@ abstract class Model extends Connection
 
     /**
      * @param array $columns
-     * @param array $where
-     * @param array $with
-     * @return bool|array|null
+     * @return Model
      */
-    public function select(array $columns, array $where = [], array $with = []): bool|array|null
+    public function select(array $columns): static
     {
         $columns = implode(', ', $columns);
 
-        $query = "SELECT $columns FROM `$this->table_name`";
+        $this->query = "SELECT $columns FROM `$this->table_name`";
 
-        if (count($with)) {
-            $second_table = $with['second_table'] ?? '';
-            $first_key = $with['first_key'] ?? '';
-            $second_key = $with['second_key'] ?? '';
+        foreach ($this->with ?? [] as $relation) {
+            $first_table = $relation['first_table'] ?? '';
+            $second_table = $relation['second_table'] ?? '';
+            $first_key = $relation['first_key'] ?? '';
+            $second_key = $relation['second_key'] ?? '';
 
-            $query .= " join $this->table_name. `$first_key` = $second_table. `$second_key`";
+            $this->query .= " join $first_table on $first_table. `$first_key` = $second_table. `$second_key`";
         }
 
-        if (count($where)) {
-            $key = array_keys($where)[0] ?? '';
-            $value = array_values($where)[0] ?? '';
+        if ($this->where) {
+            $key = array_keys($this->where)[0] ?? '';
+            $value = array_values($this->where)[0] ?? '';
 
-            $query .= " WHERE `$key` = '$value'";
+            $this->query .= " WHERE $key = '$value'";
         }
 
-//        die($query);
+        $this->query .= "$this->order";
 
-        $result = mysqli_query($this->init(), $query);
+        if ($this->limit) {
+            $this->query .= "LIMIT $this->limit";
+        }
 
-        return mysqli_fetch_all($result);
+        return $this;
     }
     public function delete(array $data)
     {
 
+    }
+
+    public function latest(string $column = 'id'): static
+    {
+        $this->order = " ORDER BY $column DESC";
+
+        return $this;
+    }
+
+    /**
+     * @param array<array> $relations
+     * @return Model
+     */
+    public function with(array $relations): static
+    {
+        $this->with = $relations;
+
+        return $this;
+    }
+
+    /**
+     * @param array $conditions
+     * @return $this
+     */
+    public function where(array $conditions): static
+    {
+        $this->where = $conditions;
+
+        return $this;
+    }
+
+    public function limit(int $page = 10): static
+    {
+        $this->limit = $page;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function get(): array
+    {
+        $result = mysqli_query($this->init(), $this->query);
+
+        return mysqli_fetch_all($result);
     }
 }

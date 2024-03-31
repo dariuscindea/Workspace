@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="<?php echo url('css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo assets('css/style.css'); ?>">
 </head>
 <body>
 <header id="header" class="">
-    <img src="<?php echo url('images/web.png'); ?>" width="50px" alt="Logo">
-    <img src="<?php echo url('images/button.png'); ?>" width="40px" alt="Meniu buton">
+    <img src="<?php echo assets('images/web.png'); ?>" width="50px" alt="Logo">
+    <img src="<?php echo assets('images/button.png'); ?>" width="40px" alt="Meniu buton">
 </header>
 
 <section id="hero">
@@ -26,9 +26,9 @@
         <h1>Servicii oferite</h1>
     </div>
     <?php
-    foreach ($servicesOffered as $service) {
+    foreach ($servicesOffered ?? [] as $service) {
         echo '<article id="serva1">
-        <img src="' . url($service[3]) . '" width="50px" alt="Logo design grafic">
+        <img src="' . assets($service[3]) . '" width="50px" alt="Logo design grafic">
         <h1>' . $service[2] . '</h1>
         <p>' . $service[4] . '</p>
     </article>';
@@ -42,15 +42,23 @@
     </div>
 
     <?php
-    foreach ($portfolios as $service) {
+    foreach ($projects ?? [] as $project) {
         echo '
         <div>
-        <h3>VEN.RO</h3>
-        <img src="' . url($service[3]) . '" width="30px" height="20px" alt="Proiect logo">
-        <h1>' . $service[2] . '</h1>
-        <p>' . $service[4] . '</p>
-    </div>
+        <h3>' . $project['title'] . '</h3>
+        <img src="' . assets($project['image']) . '" width="30px" height="20px" alt="Proiect logo">
+        <h4>' . $project['description'] . '</h1>
+        <h1>Services: </h1>
+        <div style="border: 1px solid gray; padding: 10px; margin-inline: 50px; margin-block: 10px">
         ';
+        foreach ($project['services'] ?? [] as $key => $service) {
+            echo '
+                <h3>' . ++$key .') '. $service['title'] . '</h3>
+        <img src="' . assets($service['image']) . '" width="30px" height="20px" alt="Proiect logo">
+        <h4>' . $service['description'] . '</h1>
+            ';
+        }
+    echo '</div>';
     }
     ?>
 </section>
@@ -66,9 +74,9 @@
             <p><b>Email : </b>dariusgabrielcindea@gmail.com</p>
             <h4>Social media:</h4>
             <div>
-                <img src="<?php echo url('images/insta.png'); ?>" alt="icon" width="30" height="30">
-                <img src="<?php echo url('images/facebook.png'); ?>" alt="icon" width="30" height="30">
-                <img src="<?php echo url('images/linkedin.png'); ?>" alt="icon" width="30" height="30">
+                <img src="<?php echo assets('images/insta.png'); ?>" alt="icon" width="30" height="30">
+                <img src="<?php echo assets('images/facebook.png'); ?>" alt="icon" width="30" height="30">
+                <img src="<?php echo assets('images/linkedin.png'); ?>" alt="icon" width="30" height="30">
             </div>
         </div>
 
@@ -98,7 +106,7 @@
 </section>
 
 <footer id="footerul">
-    <img src="<?php echo url('images/web.png'); ?>" width="50px" alt="Logo">
+    <img src="<?php echo assets('images/web.png'); ?>" width="50px" alt="Logo">
     <p>©2023.Design si implementare:Cindea Darius-Gabriel.All rights reserved</p>
 </footer>
 </body>

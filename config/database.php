@@ -1,34 +1,15 @@
 <?php
 
-$connection =  [
+return [
     'connections' => [
         'default' => 'mysql',
 
         'mysql' => [
-            'host' => '',
-            'username' => '',
-            'password' => '',
-            'port' => ''
+            'host' => '127.0.0.1',
+            'database' => 'workspace',
+            'username' => 'root',
+            'password' => 'root',
+            'port' => 3306
         ],
-
-        'mariadb' => [
-            'host' => '',
-            'username' => '',
-            'password' => [
-                'test',
-                'second test'
-            ],
-            'port' => ''
-        ],
-
-        'pgsql' => [
-            'host' => '',
-            'username' => '',
-            'password' => '',
-        ],
-
-        'mongodb' => [
-
-        ]
     ]
 ];
