@@ -6,11 +6,11 @@ abstract class Model extends Connection
 {
     public string $table_name;
 
-    protected string $order = 'ASC';
+    protected ?string $order = null;
 
-    protected ?array $with;
+    protected ?array $with = null;
 
-    protected ?array $where;
+    protected ?array $where = null;
 
     protected ?int $limit = null;
 
@@ -25,7 +25,11 @@ abstract class Model extends Connection
     {
         $keys = implode(', ',array_keys($data));
 
-        $values = implode(', ', array_values($data));
+        $values = array_map(function($item) {
+            return "'$item'";
+        }, array_values($data) ?? []);
+
+        $values = implode(', ', $values);
 
         $query = "INSERT INTO `$this->table_name` ($keys) VALUES ($values)";
 
@@ -62,10 +66,12 @@ abstract class Model extends Connection
             $this->query .= " WHERE $key = '$value'";
         }
 
-        $this->query .= "$this->order";
+        if ($this->order) {
+            $this->query .= "$this->order";
+        }
 
         if ($this->limit) {
-            $this->query .= "LIMIT $this->limit";
+            $this->query .= " LIMIT $this->limit";
         }
 
         return $this;

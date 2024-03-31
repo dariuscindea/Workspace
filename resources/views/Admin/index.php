@@ -31,8 +31,18 @@
             background-color: #45a049;
         }
         .crud-container {
-            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
         }
+        .border {
+            border: 1px solid gray;
+        }
+
+        .p-5 {
+            padding: 30px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -57,9 +67,15 @@
 
 <div class="crud-container">
     <h3>Add project</h3>
-    <form id="crud-form" action="process.php" method="post">
+    <form id="crud-form" action="<?php echo route('admin.store')?>" method="post" enctype="multipart/form-data">
         <label>
             <input type="text" name="name" placeholder="Name" required>
+        </label>
+        <label>
+            <input type="text" name="title" placeholder="title" required>
+        </label>
+        <label>
+            <input type="file" name="image" placeholder="image" required>
         </label>
         <label>
             <textarea name="description" placeholder="Description" rows="4" required></textarea>
@@ -68,54 +84,41 @@
     </form>
 </div>
 
-<div class="crud-container">
+<div class="crud-container border p-5">
     <h3>Projects:</h3>
     <table id="records-table">
         <thead>
         <tr>
+            <th>#</th>
+            <th>Id</th>
             <th>Name</th>
+            <th>Title</th>
             <th>Description</th>
+            <th>Image</th>
+            <th>Created At</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Records will be displayed here -->
+        <?php
+            foreach ($projects as $key => $project) {
+                echo "<tr>
+                    <td>$key</td>
+                    <td>$project[0]</td>
+                    <td>$project[1]</td>
+                    <td>$project[3]</td>
+                    <td>$project[4]</td>
+                    <td><img src='".assets($project[2])."' alt='.$project[1]' style='width: 30px; height: 30px'> </td>
+                    <td>$project[6]</td>
+                    <td>
+                    <button style='background: cornflowerblue; color: white; border-radius: 4px'>Edit</button> <button style='background: red; color: white; border-radius: 4px'>Delete</button>
+                    </td>
+                    "
+                    .'</tr>';
+            }
+        ?>
         </tbody>
     </table>
 </div>
-
-<script>
-    // This is a placeholder for fetching and displaying records from a database
-    // You can replace this with actual JavaScript code to fetch records from your backend and display them in the table
-    // For simplicity, I'm just adding a dummy record here
-    var dummyRecord = {
-        name: "Sample Record",
-        description: "This is a sample record for demonstration purposes."
-    };
-
-    // Function to add a new record to the table
-    function addRecord(record) {
-        var table = document.getElementById("records-table").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow();
-        var cell1 = newRow.insertCell(0);
-        var cell2 = newRow.insertCell(1);
-        var cell3 = newRow.insertCell(2);
-        cell1.innerHTML = record.name;
-        cell2.innerHTML = record.description;
-        cell3.innerHTML = '<button onclick="editRecord()">Edit</button> <button onclick="deleteRecord()">Delete</button>';
-    }
-
-    // Function to populate the table with records
-    function populateRecords() {
-        // Clear existing rows
-        document.getElementById("records-table").getElementsByTagName('tbody')[0].innerHTML = "";
-        // Add dummy record
-        addRecord(dummyRecord);
-    }
-
-    // Initial population of records
-    populateRecords();
-</script>
-
 </body>
 </html>

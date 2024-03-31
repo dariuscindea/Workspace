@@ -7,7 +7,14 @@ foreach ($routes as $route) {
         preg_replace('/\//', '', $route['url'], 1) ===
         preg_replace('/\//', '', $_SERVER['REQUEST_URI'], 1)
     ) {
-        $instance = new $route['controller']();
-        $instance->{$route['method']}();
+
+        if (strtolower($_SERVER['REQUEST_METHOD']) === strtolower($route['method'])) {
+            $instance = new $route['controller']();
+            $instance->{$route['action']}();
+            exit();
+        } else {
+            http_response_code(405);
+            die(json_encode(['error' => 'Method not Allowed.']));
+        }
     }
 }
