@@ -17,6 +17,6 @@ foreach ($routes as $route) {
             die(json_encode(['error' => 'Method not Allowed.']));
         }
     }
-    http_response_code(404);
-    die(json_encode(['error' => '4O4 Not Found.']));
 }
+http_response_code(404);
+die(json_encode(['error' => '4O4 Not Found.']));
