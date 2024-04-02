@@ -37,7 +37,30 @@ abstract class Model extends Connection
     }
     public function update(array $data)
     {
+        $stringQuery = '';
 
+        $countAttributes = count($data);
+        $iterators = 0;
+
+        foreach ($data as $key => $item) {
+            $iterators += 1;
+            if ($countAttributes != $iterators) {
+                $stringQuery .= "$key = '$item', ";
+            }else {
+                $stringQuery .= "$key = '$item'";
+            }
+        }
+
+        $query = "UPDATE `$this->table_name` SET $stringQuery";
+
+        if ($this->where) {
+            $key = array_keys($this->where)[0] ?? '';
+            $value = array_values($this->where)[0] ?? '';
+
+            $query .= " WHERE $key = '$value'";
+        }
+
+        return mysqli_query($this->init(), $query);
     }
 
     /**
@@ -56,7 +79,7 @@ abstract class Model extends Connection
             $first_key = $relation['first_key'] ?? '';
             $second_key = $relation['second_key'] ?? '';
 
-            $this->query .= " join $first_table on $first_table. `$first_key` = $second_table. `$second_key`";
+            $this->query .= " LEFT JOIN $first_table ON $first_table. `$first_key` = $second_table. `$second_key`";
         }
 
         if ($this->where) {
@@ -64,6 +87,10 @@ abstract class Model extends Connection
             $value = array_values($this->where)[0] ?? '';
 
             $this->query .= " WHERE $key = '$value'";
+
+//            if ($this->with) {
+//                $this->query .= " OR "
+//            }
         }
 
         if ($this->order) {

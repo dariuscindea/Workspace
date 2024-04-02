@@ -42,11 +42,22 @@ class AdminController extends BaseController
 
     public function update(): void
     {
-
-        die('update');
         $resourceId = $_POST['id'];
 
-        Project::query()->where(['id' => $resourceId])->update([]);
+        $filename = str_replace(' ', '', basename($_FILES['image']['name']));
+        $dir = "public/assets/projects/images";
+        $tempFile = "$dir/$filename";
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $isUploaded = move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
+
+        Project::query()->where(['id' => $resourceId])->update([
+            'name' => $_POST['name'], 'image' => "projects/images/$filename",
+            'title' => $_POST['title'], 'description' => $_POST['description']
+        ]);
 
         redirect(route('admin.index'));
     }

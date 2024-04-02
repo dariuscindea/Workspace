@@ -31,6 +31,9 @@ class AppController extends BaseController
             ->get();
 
 
+//        die(json_encode($projectServices));
+
+
         foreach ($projectServices as $project) {
             $projectId = $project[0];
             if (!isset($projects[$projectId])) {

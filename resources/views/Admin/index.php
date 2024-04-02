@@ -111,7 +111,7 @@
                     <td><img src='".assets($project[2])."' alt='.$project[1]' style='width: 30px; height: 30px'> </td>
                     <td>$project[6]</td>
                     <td>
-                    <button style='background: cornflowerblue; color: white; border-radius: 4px'>Edit</button> 
+                    <button style='background: cornflowerblue; color: white; border-radius: 4px'><a href='". route("admin.edit") ."?id=$project[0]' style='background: cornflowerblue; color: white; border-radius: 4px'>Edit</a></button> 
                     <a href='". route("admin.delete") ."?id=$project[0]' style='background: red; color: white; border-radius: 4px'>Delete</a>
                     </td>
                     "
