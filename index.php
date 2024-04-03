@@ -9,6 +9,10 @@ foreach ($routes as $route) {
     ) {
 
         if (strtolower($_SERVER['REQUEST_METHOD']) === strtolower($route['method'])) {
+            if ($route['middleware'] ?? false) {
+                $middlewareInstance = new $route['middleware']();
+                $middlewareInstance->handel();
+            }
             $instance = new $route['controller']();
             $instance->{$route['action']}();
             exit();

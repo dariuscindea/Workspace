@@ -83,14 +83,22 @@ abstract class Model extends Connection
         }
 
         if ($this->where) {
-            $key = array_keys($this->where)[0] ?? '';
-            $value = array_values($this->where)[0] ?? '';
 
-            $this->query .= " WHERE $key = '$value'";
+            $iterator = 0;
+            $items = count($this->where);
 
-//            if ($this->with) {
-//                $this->query .= " OR "
-//            }
+            $where = ' WHERE ';
+
+            foreach ($this->where as $key => $value) {
+                $iterator +=1;
+                if ($items != $iterator) {
+                    $where .= "$key = '$value' AND ";
+                }else {
+                    $where .= "$key = '$value'";
+                }
+            }
+
+            $this->query .= $where;
         }
 
         if ($this->order) {
