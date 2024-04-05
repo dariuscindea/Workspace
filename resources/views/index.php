@@ -44,21 +44,24 @@
     <?php
     foreach ($projects ?? [] as $project) {
         echo '
-        <div>
+        <div style="border: 1px solid gray; padding-inline: 10px; margin-block: 10px">
+        <h1>PROJECT ('. $project['id'] .')</h1>
         <h3>' . $project['title'] . '</h3>
         <img src="' . assets($project['image']) . '" width="30px" height="20px" alt="Proiect logo">
-        <h4>' . $project['description'] . '</h1>
-        <h1>Services: </h1>
-        <div style="border: 1px solid gray; padding: 10px; margin-inline: 50px; margin-block: 10px">
+        <h4>' . $project['description'] . '</h4>
         ';
+        if ($project['services']) {
+            echo "<h1>Services: </h1>";
+        }
         foreach ($project['services'] ?? [] as $key => $service) {
             echo '
-                <h3>' . ++$key .') '. $service['title'] . '</h3>
+                <div style="border: 1px solid gray; padding: 10px; margin-inline: 50px; margin-block: 10px">
+                <h3>' . ++$key . ') ' . $service['title'] . '</h3>
         <img src="' . assets($service['image']) . '" width="30px" height="20px" alt="Proiect logo">
         <h4>' . $service['description'] . '</h1>
-            ';
+            </div>';
         }
-    echo '</div>';
+        echo "</div>";
     }
     ?>
 </section>

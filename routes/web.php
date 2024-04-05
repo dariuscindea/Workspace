@@ -9,6 +9,7 @@ return [
     // The Landing page.
     ['url' => '/', 'name' => 'index', 'controller' => AppController::class, 'action' => 'index', 'method' => 'get'],
     ['url' => '/login', 'name' => 'auth.login.show', 'controller' => AuthController::class, 'action' => 'showLogin', 'method' => 'get'],
+    ['url' => '/logout', 'name' => 'auth.logout', 'controller' => AuthController::class, 'action' => 'logout', 'method' => 'get'],
     ['url' => '/login_', 'name' => 'auth.login', 'controller' => AuthController::class, 'action' => 'login', 'method' => 'post'],
 
     // Admin Area.

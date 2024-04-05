@@ -12,6 +12,8 @@ abstract class Model extends Connection
 
     protected ?array $where = null;
 
+    protected ?array $select = null;
+
     protected ?int $limit = null;
 
     private ?string $query = null;
@@ -69,45 +71,7 @@ abstract class Model extends Connection
      */
     public function select(array $columns): static
     {
-        $columns = implode(', ', $columns);
-
-        $this->query = "SELECT $columns FROM `$this->table_name`";
-
-        foreach ($this->with ?? [] as $relation) {
-            $first_table = $relation['first_table'] ?? '';
-            $second_table = $relation['second_table'] ?? '';
-            $first_key = $relation['first_key'] ?? '';
-            $second_key = $relation['second_key'] ?? '';
-
-            $this->query .= " LEFT JOIN $first_table ON $first_table. `$first_key` = $second_table. `$second_key`";
-        }
-
-        if ($this->where) {
-
-            $iterator = 0;
-            $items = count($this->where);
-
-            $where = ' WHERE ';
-
-            foreach ($this->where as $key => $value) {
-                $iterator +=1;
-                if ($items != $iterator) {
-                    $where .= "$key = '$value' AND ";
-                }else {
-                    $where .= "$key = '$value'";
-                }
-            }
-
-            $this->query .= $where;
-        }
-
-        if ($this->order) {
-            $this->query .= "$this->order";
-        }
-
-        if ($this->limit) {
-            $this->query .= " LIMIT $this->limit";
-        }
+        $this->select = $columns;
 
         return $this;
     }
@@ -166,6 +130,56 @@ abstract class Model extends Connection
      */
     public function get(): array
     {
+        $columns = implode(', ', $this->select);
+
+        $this->query = "SELECT $columns FROM `$this->table_name`";
+
+        foreach ($this->with ?? [] as $relation) {
+
+            $first_table = $relation['first_table'] ?? '';
+            $second_table = $relation['second_table'] ?? '';
+            $first_key = $relation['first_key'] ?? '';
+            $second_key = $relation['second_key'] ?? '';
+
+            $this->query .= " LEFT JOIN $first_table ON $first_table. `$first_key` = $second_table. `$second_key`";
+
+            foreach ($this->where as $key => $value) {
+                $IsConditionInRelation = explode('.', $key)[0];
+
+                if ($IsConditionInRelation === $first_table) {
+                    $this->query .= " AND $key = '$value'";
+                    unset($this->where[$key]);
+                }
+            }
+        }
+
+        if ($this->where) {
+
+            $iterator = 0;
+            $items = count($this->where);
+
+            $where = ' WHERE ';
+
+            foreach ($this->where as $key => $value) {
+                $iterator +=1;
+                if ($items != $iterator) {
+                    $where .= "$key = '$value' AND ";
+                }else {
+                    $where .= "$key = '$value'";
+                }
+            }
+
+            $this->query .= $where;
+        }
+
+        if ($this->order) {
+            $this->query .= "$this->order";
+        }
+
+        if ($this->limit) {
+            $this->query .= " LIMIT $this->limit";
+        }
+
         $result = mysqli_query($this->init(), $this->query);
 
         return mysqli_fetch_all($result);

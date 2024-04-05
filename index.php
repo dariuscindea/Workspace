@@ -9,12 +9,16 @@ foreach ($routes as $route) {
     ) {
 
         if (strtolower($_SERVER['REQUEST_METHOD']) === strtolower($route['method'])) {
+            $instance = new $route['controller']();
+
             if ($route['middleware'] ?? false) {
                 $middlewareInstance = new $route['middleware']();
-                $middlewareInstance->handel();
+                if($middlewareInstance->handel()) {
+                    $instance->{$route['action']}();
+                }
+            } else {
+                $instance->{$route['action']}();
             }
-            $instance = new $route['controller']();
-            $instance->{$route['action']}();
             exit();
         } else {
             http_response_code(405);

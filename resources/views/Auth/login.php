@@ -77,6 +77,9 @@
     </style>
 </head>
 <body>
+<?php
+include __DIR__ . '/../../Layouts/header.php';
+?>
 <div class="crud-container">
     <form id="crud-form" action="<?php echo route('auth.login') ?>" method="post">
         <h2>Login</h2>

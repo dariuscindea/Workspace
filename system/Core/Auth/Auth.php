@@ -14,4 +14,9 @@ class Auth
 
         return false;
     }
+
+    public static function logout(): void
+    {
+        Session::instance()->unsetAll();
+    }
 }

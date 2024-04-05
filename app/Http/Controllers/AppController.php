@@ -30,10 +30,6 @@ class AppController extends BaseController
         )->limit(15)
             ->get();
 
-
-//        die(json_encode($projectServices));
-
-
         foreach ($projectServices as $project) {
             $projectId = $project[0];
             if (!isset($projects[$projectId])) {
@@ -46,9 +42,11 @@ class AppController extends BaseController
                     'services' => []
                 ];
             }
-            $projects[$projectId]['services'][] = [
-                'title' => $project[5], 'image' => $project[6], 'description' => $project[7]
-            ];
+            if ($project[5] || $project[6] || $project[7]) {
+                $projects[$projectId]['services'][] = [
+                    'title' => $project[5], 'image' => $project[6], 'description' => $project[7]
+                ];
+            }
         }
 
         include_once __DIR__ . '/../../../resources/views/index.php';

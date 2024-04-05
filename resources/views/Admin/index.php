@@ -62,7 +62,9 @@
     </style>
 </head>
 <body>
-
+<?php
+include __DIR__ . '/../../Layouts/header.php';
+?>
 <h2>Projects</h2>
 
 <div class="crud-container">

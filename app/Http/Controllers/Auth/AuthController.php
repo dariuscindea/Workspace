@@ -21,4 +21,11 @@ class AuthController extends BaseController
 
         redirect(route('admin.index'));
     }
+
+    public function logout(): void
+    {
+        Auth::logout();
+
+        redirect(route('auth.login.show'));
+    }
 }
