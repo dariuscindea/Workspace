@@ -73,7 +73,7 @@
     </style>
 <nav class="navbar">
     <!-- LOGO -->
-    <div class="logo">TEST</div>
+    <div class="logo">Freelancer</div>
 
     <!-- NAVIGATION MENU -->
     <ul class="nav-links">

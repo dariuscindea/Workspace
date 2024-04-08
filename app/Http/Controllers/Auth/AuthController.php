@@ -28,4 +28,23 @@ class AuthController extends BaseController
 
         redirect(route('auth.login.show'));
     }
+
+    public function showRegister(): void
+    {
+        view('auth/register');
+    }
+
+    public function register(): void
+    {
+        $name = $_POST['user_name'];
+        $email = $_POST['email'];
+
+        $algo = include_once __DIR__ . '/../../../../config/auth.php';
+
+        $password = password_hash($_POST['password'], $algo['algo']);
+
+        User::query()->insert(compact(['name', 'email', 'password']));
+
+        redirect(route('auth.login.show'), with: ['auth.message' => '']);
+    }
 }

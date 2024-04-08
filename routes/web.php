@@ -9,6 +9,8 @@ return [
     // The Landing page.
     ['url' => '/', 'name' => 'index', 'controller' => AppController::class, 'action' => 'index', 'method' => 'get'],
     ['url' => '/login', 'name' => 'auth.login.show', 'controller' => AuthController::class, 'action' => 'showLogin', 'method' => 'get'],
+    ['url' => '/signup', 'name' => 'auth.register.show', 'controller' => AuthController::class, 'action' => 'showRegister', 'method' => 'get'],
+    ['url' => '/register', 'name' => 'auth.register', 'controller' => AuthController::class, 'action' => 'register', 'method' => 'post'],
     ['url' => '/logout', 'name' => 'auth.logout', 'controller' => AuthController::class, 'action' => 'logout', 'method' => 'get'],
     ['url' => '/login_', 'name' => 'auth.login', 'controller' => AuthController::class, 'action' => 'login', 'method' => 'post'],
 

@@ -33,7 +33,7 @@ class Session
 
     public function unsetAll(): void
     {
-        foreach ($_SESSION as $key => $value) {
+        foreach ($_SESSION ?? [] as $key => $value) {
             $this->unset($key);
         }
     }

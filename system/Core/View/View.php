@@ -10,7 +10,5 @@ if (! function_exists('view')) {
     function view(string $view, array $with = []): void
     {
         include_once __DIR__ . "/../../../resources/views/$view.php";
-
-        Session::instance()->unsetAll();
     }
 }
