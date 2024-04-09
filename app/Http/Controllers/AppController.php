@@ -49,6 +49,6 @@ class AppController extends BaseController
             }
         }
 
-        include_once __DIR__ . '/../../../resources/views/index.php';
+        view('index', compact(['servicesOffered', 'projects']));
     }
 }

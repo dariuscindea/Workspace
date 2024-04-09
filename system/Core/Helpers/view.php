@@ -9,6 +9,12 @@ if (! function_exists('view')) {
      */
     function view(string $view, array $with = []): void
     {
+        foreach ($with as $key => $value) {
+            ${$key} = $value;
+        }
+
         include_once __DIR__ . "/../../../resources/views/$view.php";
+
+        Session::instance()->unsetAll();
     }
 }

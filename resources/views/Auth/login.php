@@ -89,7 +89,7 @@ include __DIR__ . '/../../Layouts/header.php';
         </label>
         <label>
             <input type="password" name="password" placeholder="Password" class="mt-3" required>
-            <span style="font-size: 12px; color: red"><?php echo $with['auth.message'] ?? '' ?></span>
+            <span style="font-size: 12px; color: red"><?php echo $authMessage ?? '' ?></span>
         </label>
         <input type="submit" value="Login" class="mt-3">
         <span style="float: right; margin-top: 10px">You dont have account? <a

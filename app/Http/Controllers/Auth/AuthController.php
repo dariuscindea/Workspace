@@ -7,7 +7,7 @@ class AuthController extends BaseController
     {
         $message = Session::instance()->get('auth.message');
 
-        view('auth/login', with: ['auth.message' => $message]);
+        view('auth/login', with: ['authMessage' => $message]);
     }
     public function login(): void
     {
@@ -39,9 +39,7 @@ class AuthController extends BaseController
         $name = $_POST['user_name'];
         $email = $_POST['email'];
 
-        $algo = include_once __DIR__ . '/../../../../config/auth.php';
-
-        $password = password_hash($_POST['password'], $algo['algo']);
+        $password = password_hash($_POST['password'], config('auth.algo'));
 
         User::query()->insert(compact(['name', 'email', 'password']));
 

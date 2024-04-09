@@ -4,8 +4,6 @@ class Auth
 {
     public static function attempt(array $credentials): bool
     {
-        $algo = include_once __DIR__ . '/../../../config/auth.php';
-
         $user = User::query()->where(['email' => $credentials['email']])->select(['*'])->get();
 
         $isVerifiedPassword = password_verify($credentials['password'], $user[0][3]);

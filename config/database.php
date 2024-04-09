@@ -8,7 +8,7 @@ return [
             'host' => '127.0.0.1',
             'database' => 'workspace',
             'username' => 'root',
-            'password' => 'Acasa_2003',
+            'password' => 'root',
             'port' => 3306
         ],
     ]
