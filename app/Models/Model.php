@@ -37,7 +37,7 @@ abstract class Model extends Connection
 
         return mysqli_query($this->init(), $query);
     }
-    public function update(array $data)
+    public function update(array $data): mysqli_result|bool
     {
         $stringQuery = '';
 

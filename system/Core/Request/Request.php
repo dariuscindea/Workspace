@@ -38,4 +38,9 @@ class Request
     {
         return $this->data;
     }
+
+    public function hasFile(string $file): bool
+    {
+        return $_FILES[$file] ?? false;
+    }
 }

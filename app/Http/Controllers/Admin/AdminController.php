@@ -11,7 +11,7 @@ class AdminController extends BaseController
         view('admin/index', with: compact(['projects']));
     }
 
-    public function store(): void
+    public function store(Request $request): void
     {
         $filename = str_replace(' ', '', basename($_FILES['image']['name']));
         $dir = "public/assets/projects/images";
@@ -23,27 +23,22 @@ class AdminController extends BaseController
 
         move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
 
-        Project::query()->insert([
-            'name' => $_POST['name'], 'image' => "projects/images/$filename",
-            'title' => $_POST['title'], 'description' => $_POST['description']
+        Project::query()->insert($request->only(['name', 'title', 'description']) + [
+            'image' => "projects/images/$filename",
         ]);
 
         redirect(route('admin.index'));
     }
 
-    public function edit(): void
+    public function edit(Request $request): void
     {
-        $resourceId = $_GET['id'];
-
-        $project = Project::query()->where(['id' => $resourceId])->select(['*'])->get();
+        $project = Project::query()->where(['id' => $request->id])->select(['*'])->get();
 
         view('admin/edit', with: compact(['project']));
     }
 
-    public function update(): void
+    public function update(Request $request): void
     {
-        $resourceId = $_POST['id'];
-
         $filename = str_replace(' ', '', basename($_FILES['image']['name']));
         $dir = "public/assets/projects/images";
         $tempFile = "$dir/$filename";
@@ -54,19 +49,18 @@ class AdminController extends BaseController
 
         move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
 
-        Project::query()->where(['id' => $resourceId])->update([
-            'name' => $_POST['name'], 'image' => "projects/images/$filename",
-            'title' => $_POST['title'], 'description' => $_POST['description']
-        ]);
+        Project::query()
+            ->where(['id' => $request->id])
+            ->update($request->only(['name', 'title', 'description']) + [
+                'image' => "projects/images/$filename",
+            ]);
 
         redirect(route('admin.index'));
     }
 
-    public function destroy(): void
+    public function destroy(Request $request): void
     {
-        $resourceId = $_GET['id'];
-
-        Project::query()->where(['id' => $resourceId])->delete();
+        Project::query()->where($request->only(['id']))->delete();
 
         redirect(route('admin.index'));
     }
