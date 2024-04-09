@@ -14,7 +14,5 @@ if (! function_exists('view')) {
         }
 
         include_once __DIR__ . "/../../../resources/views/$view.php";
-
-        Session::instance()->unsetAll();
     }
 }
