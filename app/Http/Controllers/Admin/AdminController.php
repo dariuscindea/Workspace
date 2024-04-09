@@ -8,7 +8,7 @@ class AdminController extends BaseController
     {
         $projects = Project::query()->latest()->limit(15)->select(['*'])->get();
 
-        include_once __DIR__ . '/../../../../resources/views/admin/index.php';
+        view('admin/index', with: compact(['projects']));
     }
 
     public function store(): void
@@ -21,7 +21,7 @@ class AdminController extends BaseController
             mkdir($dir, 0777, true);
         }
 
-        $isUploaded = move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
+        move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
 
         Project::query()->insert([
             'name' => $_POST['name'], 'image' => "projects/images/$filename",
@@ -37,7 +37,7 @@ class AdminController extends BaseController
 
         $project = Project::query()->where(['id' => $resourceId])->select(['*'])->get();
 
-        include_once __DIR__ . '/../../../../resources/views/admin/edit.php';
+        view('admin/edit', with: compact(['project']));
     }
 
     public function update(): void
@@ -52,7 +52,7 @@ class AdminController extends BaseController
             mkdir($dir, 0777, true);
         }
 
-        $isUploaded = move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
+        move_uploaded_file($_FILES['image']['tmp_name'], $tempFile);
 
         Project::query()->where(['id' => $resourceId])->update([
             'name' => $_POST['name'], 'image' => "projects/images/$filename",
