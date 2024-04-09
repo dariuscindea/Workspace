@@ -9,15 +9,15 @@ foreach ($routes as $route) {
     ) {
 
         if (strtolower($_SERVER['REQUEST_METHOD']) === strtolower($route['method'])) {
-            $instance = new $route['controller']();
+            $instance = new $route['action'][0]();
 
             if ($route['middleware'] ?? false) {
                 $middlewareInstance = new $route['middleware']();
                 if($middlewareInstance->handel()) {
-                    $instance->{$route['action']}();
+                    $instance->{$route['action'][1]}(new Request());
                 }
             } else {
-                $instance->{$route['action']}();
+                $instance->{$route['action'][1]}(new Request());
             }
             exit();
         } else {

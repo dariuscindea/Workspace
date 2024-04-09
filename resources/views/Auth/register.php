@@ -88,7 +88,7 @@ include __DIR__ . '/../../Layouts/header.php';
             <input type="text" name="email" placeholder="Email" class="mt-3 mb-3" required>
         </label>
         <label>
-            <input type="text" name="user_name" placeholder="Username" class="mt-3 mb-3" required>
+            <input type="text" name="name" placeholder="Username" class="mt-3 mb-3" required>
         </label>
         <label>
             <input type="password" name="password" placeholder="Password" class="mt-3" required>

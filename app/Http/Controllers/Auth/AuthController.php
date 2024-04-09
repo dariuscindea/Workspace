@@ -9,12 +9,9 @@ class AuthController extends BaseController
 
         view('auth/login', with: ['authMessage' => $message]);
     }
-    public function login(): void
+    public function login(Request $request): void
     {
-        $username = $_POST['email'];
-        $password = $_POST['password'];
-
-        if (! Auth::attempt(['email' => $username, 'password' => $password])) {
+        if (! Auth::attempt($request->only(['email', 'password']))) {
             redirect(route('auth.login.show'), with: ['auth.message' => "credentials don't match our records."]);
             return;
         }
@@ -34,14 +31,11 @@ class AuthController extends BaseController
         view('auth/register');
     }
 
-    public function register(): void
+    public function register(Request $request): void
     {
-        $name = $_POST['user_name'];
-        $email = $_POST['email'];
+        $password = password_hash($request->password, config('auth.algo'));
 
-        $password = password_hash($_POST['password'], config('auth.algo'));
-
-        User::query()->insert(compact(['name', 'email', 'password']));
+        User::query()->insert($request->only(['name', 'email']) + compact(['password']));
 
         redirect(route('auth.login.show'), with: ['auth.message' => '']);
     }
